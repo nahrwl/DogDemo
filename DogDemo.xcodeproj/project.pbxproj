@@ -12,6 +12,7 @@
 		D8480E3C20672A4E00F0F32A /* DogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8480E3B20672A4E00F0F32A /* DogManager.swift */; };
 		D84D8B9A20660CD000D9A829 /* DogTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D84D8B9920660CD000D9A829 /* DogTableViewController.swift */; };
 		D84D8B9C20660D4700D9A829 /* DogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D84D8B9B20660D4700D9A829 /* DogTableViewCell.swift */; };
+		D862EE0B20677104005A15CE /* DogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D862EE0A20677104005A15CE /* DogService.swift */; };
 		D8E42F6B2061DF7D00303E3F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E42F6A2061DF7D00303E3F /* AppDelegate.swift */; };
 		D8E42F702061DF7D00303E3F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8E42F6E2061DF7D00303E3F /* Main.storyboard */; };
 		D8E42F732061DF7D00303E3F /* DogDemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D8E42F712061DF7D00303E3F /* DogDemo.xcdatamodeld */; };
@@ -29,6 +30,7 @@
 		D8480E3B20672A4E00F0F32A /* DogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogManager.swift; sourceTree = "<group>"; };
 		D84D8B9920660CD000D9A829 /* DogTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogTableViewController.swift; sourceTree = "<group>"; };
 		D84D8B9B20660D4700D9A829 /* DogTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogTableViewCell.swift; sourceTree = "<group>"; };
+		D862EE0A20677104005A15CE /* DogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogService.swift; sourceTree = "<group>"; };
 		D8E42F672061DF7D00303E3F /* DogDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DogDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8E42F6A2061DF7D00303E3F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8E42F6F2061DF7D00303E3F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 				D8E42F712061DF7D00303E3F /* DogDemo.xcdatamodeld */,
 				D8480E3B20672A4E00F0F32A /* DogManager.swift */,
 				D8480E362066E28C00F0F32A /* DogImageDownloader.swift */,
+				D862EE0A20677104005A15CE /* DogService.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D862EE0B20677104005A15CE /* DogService.swift in Sources */,
 				D84D8B9A20660CD000D9A829 /* DogTableViewController.swift in Sources */,
 				D8E42F6B2061DF7D00303E3F /* AppDelegate.swift in Sources */,
 				D8480E372066E28C00F0F32A /* DogImageDownloader.swift in Sources */,

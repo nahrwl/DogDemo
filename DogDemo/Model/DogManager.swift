@@ -15,36 +15,60 @@ class DogManager {
     static let shared = DogManager()
     private init() {}
     
-    func fetchDogBreeds() {
-        Alamofire.request("https://dog.ceo/api/breeds/list/all")
-            .validate()
-            .responseJSON { (response) in
-                switch response.result {
-                case .success(let json):
-                    let data = JSON(json)
-                    print("Response JSON: \(json)")
+    func refreshDogBreeds() {
+        DogService.fetchDogBreeds { (data) in
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            let moc = appDelegate.persistentContainer.viewContext
+            
+            for (breed, _):(String, JSON) in data["message"] {
+                let req: NSFetchRequest<DogMO> = DogMO.fetchRequest()
+                req.predicate = NSPredicate(format: "breed == %@", breed)
+                
+                do {
+                    let fetchedDogs = try moc.fetch(req)
                     
-                    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                    let moc = appDelegate.persistentContainer.viewContext
-                    
-                    // Remove all the dogs so they can be replaced with new data
-                    let fetch: NSFetchRequest<NSFetchRequestResult> = DogMO.fetchRequest()
-                    let req = NSBatchDeleteRequest(fetchRequest: fetch)
-                    do {
-                        try moc.execute(req)
-                    } catch {
-                        fatalError("Failed to delete objects: \(error)")
-                    }
-                    
-                    for (breed, _):(String, JSON) in data["message"] {
+                    // If the dog breed isn't already stored, store it
+                    if fetchedDogs.count == 0 {
                         let dog = DogMO(context: moc)
                         dog.breed = breed
                     }
-                    
-                    appDelegate.saveContext()
-                case .failure(let error):
-                    print("Error retrieving dog breeds: \(error)")
+                } catch {
+                    fatalError("Failed to refresh dogs: \(error)")
                 }
+                
+                self.refreshImageForBreed(breed)
+                
+            }
+            
+            appDelegate.saveContext()
+        }
+    }
+    
+    
+    func refreshImageForBreed(_ breed: String) {
+        DogService.fetchRandomImageForBreed(breed) { (data) in
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            let moc = appDelegate.persistentContainer.viewContext
+            
+            let req: NSFetchRequest<DogMO> = DogMO.fetchRequest()
+            req.predicate = NSPredicate(format: "breed == %@", breed)
+            
+            let fetchedDogs: [DogMO]?
+            do {
+                fetchedDogs = try moc.fetch(req)
+            } catch {
+                fatalError("Failed to refresh dogs: \(error)")
+            }
+            
+            guard let dogs = fetchedDogs else { return }
+            guard dogs.count > 0 else { return }
+            
+            let imageURLString = data["message"].stringValue
+            for dogMO in dogs {
+                dogMO.imageURL = URL(string: imageURLString)
+            }
+            
+            appDelegate.saveContext()
         }
     }
 }
