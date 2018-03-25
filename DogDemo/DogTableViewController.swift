@@ -8,20 +8,21 @@
 
 import UIKit
 import CoreData
-import Alamofire
 
 class DogTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     var fetchedResultsController: NSFetchedResultsController<DogMO>!
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "Dog Breeds"
-        tableView.register(DogTableViewCell.self, forCellReuseIdentifier: "DogCell")
         
         initializeFetchedResultsController()
+        DogManager.shared.fetchDogBreeds()
     }
+    
     
     func initializeFetchedResultsController() {
         let request:NSFetchRequest<DogMO> = DogMO.fetchRequest()
