@@ -7,4 +7,5 @@ target 'DogDemo' do
 
   # Pods for DogDemo
   pod 'Alamofire', '~> 4.7'
+  pod 'AlamofireImage', '~> 3.3'
 end
