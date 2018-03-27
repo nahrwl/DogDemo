@@ -21,6 +21,15 @@ class DogManager {
     static let shared = DogManager()
     private init() {}
     
+    private var imageURLFetchTracker: UInt = 0 {
+        didSet {
+            if imageURLFetchTracker == 0 {
+                // End refreshing
+                refreshing = false
+            }
+        }
+    }
+    
     private(set) var refreshing = false {
         didSet {
             // If refreshing changes from true to false
@@ -57,7 +66,6 @@ class DogManager {
                 
             }
             
-            self.refreshing = false
             appDelegate.saveContext()
         }, failure: { (error) in
             self.refreshing = false
@@ -66,6 +74,7 @@ class DogManager {
     
     
     func refreshImageForBreed(_ breed: String) {
+        imageURLFetchTracker += 1
         DogService.fetchRandomImageForBreed(breed, success: { (data) in
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             let moc = appDelegate.persistentContainer.viewContext
@@ -88,7 +97,11 @@ class DogManager {
                 dogMO.imageURL = URL(string: imageURLString)
             }
             
+            self.imageURLFetchTracker -= 1
+            
             appDelegate.saveContext()
-        }, failure: nil)
+        }, failure: { (error) in
+            self.imageURLFetchTracker -= 1
+        })
     }
 }

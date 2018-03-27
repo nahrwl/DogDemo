@@ -27,7 +27,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="439.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fvr-Hs-sKw">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fvr-Hs-sKw">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="375"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="fvr-Hs-sKw" secondAttribute="height" multiplier="1:1" id="7rv-N6-5xG"/>
@@ -39,19 +39,25 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Op5-eT-7GX">
+                                            <rect key="frame" x="169" y="169" width="37" height="37"/>
+                                        </activityIndicatorView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="HF3-a7-wr0" firstAttribute="top" secondItem="fvr-Hs-sKw" secondAttribute="bottom" constant="8" id="9TA-xv-8fw"/>
+                                        <constraint firstItem="Op5-eT-7GX" firstAttribute="centerY" secondItem="fvr-Hs-sKw" secondAttribute="centerY" id="Awu-v5-C3X"/>
                                         <constraint firstAttribute="trailing" secondItem="fvr-Hs-sKw" secondAttribute="trailing" id="TFX-U1-P2P"/>
                                         <constraint firstItem="HF3-a7-wr0" firstAttribute="leading" secondItem="LFY-h8-tlO" secondAttribute="leadingMargin" id="WZ7-Tb-wMU"/>
                                         <constraint firstItem="HF3-a7-wr0" firstAttribute="trailing" secondItem="LFY-h8-tlO" secondAttribute="trailingMargin" id="a6u-FE-uvv"/>
                                         <constraint firstItem="fvr-Hs-sKw" firstAttribute="leading" secondItem="LFY-h8-tlO" secondAttribute="leading" id="aMz-SE-NKK"/>
+                                        <constraint firstItem="Op5-eT-7GX" firstAttribute="centerX" secondItem="fvr-Hs-sKw" secondAttribute="centerX" id="puA-aN-5kz"/>
                                         <constraint firstItem="fvr-Hs-sKw" firstAttribute="top" secondItem="LFY-h8-tlO" secondAttribute="top" id="tlF-GZ-YGj"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="dogImageView" destination="fvr-Hs-sKw" id="hx2-pf-3ye"/>
                                     <outlet property="dogTitle" destination="HF3-a7-wr0" id="is6-WM-GU6"/>
+                                    <outlet property="imageLoadingIndicator" destination="Op5-eT-7GX" id="X5P-vA-wuG"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

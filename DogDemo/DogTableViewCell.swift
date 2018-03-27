@@ -13,10 +13,14 @@ class DogTableViewCell: UITableViewCell {
 
     @IBOutlet weak var dogImageView: UIImageView!
     @IBOutlet weak var dogTitle: UILabel!
+    @IBOutlet weak var imageLoadingIndicator: UIActivityIndicatorView!
     
     var imageURL: URL? {
         didSet {
+            imageLoadingIndicator.startAnimating()
+            
             guard let url = imageURL else { return }
+            
             let filter = AspectScaledToFillSizeFilter(size: dogImageView.frame.size)
             dogImageView.af_setImage(
                 withURL: url,
@@ -24,7 +28,9 @@ class DogTableViewCell: UITableViewCell {
                 filter: filter,
                 imageTransition: .crossDissolve(0.2),
                 runImageTransitionIfCached: false
-            )
+            ) { (_) in
+                self.imageLoadingIndicator.stopAnimating()
+            }
         }
     }
 
