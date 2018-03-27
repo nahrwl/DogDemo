@@ -10,6 +10,7 @@ import SwiftyJSON
 import CoreData
 
 
+/* Delegate for DogManager so the current view controller can subscribe to updates */
 protocol DogManagerDelegate {
     func didEndRefreshing()
 }
@@ -21,6 +22,9 @@ class DogManager {
     static let shared = DogManager()
     private init() {}
     
+    // This property tracks the number of outstanding API requests
+    // regarding fetching the URL of a random dog image.
+    // When the counter reaches 0, it will end refreshing.
     private var imageURLFetchTracker: UInt = 0 {
         didSet {
             if imageURLFetchTracker == 0 {

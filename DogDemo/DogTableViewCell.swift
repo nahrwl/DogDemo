@@ -16,21 +16,28 @@ class DogTableViewCell: UITableViewCell {
     @IBOutlet weak var imageLoadingIndicator: UIActivityIndicatorView!
     
     var imageURL: URL? {
+        // When the URL is set, download the image.
         didSet {
-            imageLoadingIndicator.startAnimating()
-            
-            guard let url = imageURL else { return }
-            
-            let filter = AspectScaledToFillSizeFilter(size: dogImageView.frame.size)
-            dogImageView.af_setImage(
-                withURL: url,
-                placeholderImage: UIImage(named: "Placeholder Image"),
-                filter: filter,
-                imageTransition: .crossDissolve(0.2),
-                runImageTransitionIfCached: false
-            ) { (_) in
-                self.imageLoadingIndicator.stopAnimating()
-            }
+            updateImageView()
+        }
+    }
+    
+    /* This function is called when the imageURL is updated. It pulls
+       the image from the server through AlamofireImage. */
+    private func updateImageView() {
+        imageLoadingIndicator.startAnimating()
+        
+        guard let url = imageURL else { return }
+        
+        let filter = AspectScaledToFillSizeFilter(size: dogImageView.frame.size)
+        dogImageView.af_setImage(
+            withURL: url,
+            placeholderImage: UIImage(named: "Placeholder Image"),
+            filter: filter,
+            imageTransition: .crossDissolve(0.2),
+            runImageTransitionIfCached: false
+        ) { (_) in
+            self.imageLoadingIndicator.stopAnimating()
         }
     }
 

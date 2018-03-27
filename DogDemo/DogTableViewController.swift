@@ -17,17 +17,25 @@ class DogTableViewController: UITableViewController, NSFetchedResultsControllerD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Register for updates regarding querying the API
         DogManager.shared.delegate = self
 
         title = "Dog Breeds"
         
+        // Set up refresh control to enable pulling new data from API
         refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         
+        // Set up fetching model info from Core Data
         initializeFetchedResultsController()
+        // Pull the latest data from the API
         refreshData()
+        refreshControl?.beginRefreshing()
+        self.tableView.setContentOffset(CGPoint(x: 0, y: (refreshControl?.frame.size.height)! * -1), animated: true)
+
     }
     
     
+    /* Sets up the FetchedResultsController for retrieving data from Core Data */
     func initializeFetchedResultsController() {
         let request:NSFetchRequest<DogMO> = DogMO.fetchRequest()
         let breedSort = NSSortDescriptor(key: "breed", ascending: true)
@@ -81,10 +89,12 @@ class DogTableViewController: UITableViewController, NSFetchedResultsControllerD
     
     // MARK: - Refreshing
     
+    /* Begin refreshing data. This function is called by the refresh control. */
     @objc func refreshData() {
         DogManager.shared.refreshDogBreeds()
     }
     
+    /* Update the UI to reflect that refreshing has ended */
     func endRefreshing() {
         refreshControl?.endRefreshing()
     }
@@ -97,6 +107,7 @@ class DogTableViewController: UITableViewController, NSFetchedResultsControllerD
     
 
     // MARK: - Fetched Results Controller Delegate
+    // This is to update the table view in case the Core Data data changes.
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
