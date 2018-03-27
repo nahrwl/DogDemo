@@ -6,17 +6,34 @@
 //  Copyright © 2018 Nathan Wallace. All rights reserved.
 //
 
-import Alamofire
 import SwiftyJSON
 import CoreData
 
 
+protocol DogManagerDelegate {
+    func didEndRefreshing()
+}
+
+
 class DogManager {
+    var delegate: DogManagerDelegate?
+    
     static let shared = DogManager()
     private init() {}
     
+    private(set) var refreshing = false {
+        didSet {
+            // If refreshing changes from true to false
+            if !refreshing && oldValue {
+                // Notify the delegate
+                delegate?.didEndRefreshing()
+            }
+        }
+    }
+    
     func refreshDogBreeds() {
-        DogService.fetchDogBreeds { (data) in
+        refreshing = true
+        DogService.fetchDogBreeds(success: { (data) in
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             let moc = appDelegate.persistentContainer.viewContext
             
@@ -40,13 +57,16 @@ class DogManager {
                 
             }
             
+            self.refreshing = false
             appDelegate.saveContext()
-        }
+        }, failure: { (error) in
+            self.refreshing = false
+        })
     }
     
     
     func refreshImageForBreed(_ breed: String) {
-        DogService.fetchRandomImageForBreed(breed) { (data) in
+        DogService.fetchRandomImageForBreed(breed, success: { (data) in
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             let moc = appDelegate.persistentContainer.viewContext
             
@@ -69,6 +89,6 @@ class DogManager {
             }
             
             appDelegate.saveContext()
-        }
+        }, failure: nil)
     }
 }

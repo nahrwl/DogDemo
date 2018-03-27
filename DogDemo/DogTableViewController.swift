@@ -9,18 +9,22 @@
 import UIKit
 import CoreData
 
-class DogTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class DogTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, DogManagerDelegate {
     
     var fetchedResultsController: NSFetchedResultsController<DogMO>!
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        DogManager.shared.delegate = self
 
         title = "Dog Breeds"
         
+        refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        
         initializeFetchedResultsController()
-        DogManager.shared.refreshDogBreeds()
+        refreshData()
     }
     
     
@@ -73,6 +77,22 @@ class DogTableViewController: UITableViewController, NSFetchedResultsControllerD
         cell.imageURL = dog.imageURL
         
         return cell
+    }
+    
+    // MARK: - Refreshing
+    
+    @objc func refreshData() {
+        DogManager.shared.refreshDogBreeds()
+    }
+    
+    func endRefreshing() {
+        refreshControl?.endRefreshing()
+    }
+    
+    // MARK: - Dog Manager Delegate
+    
+    func didEndRefreshing() {
+        endRefreshing()
     }
     
 

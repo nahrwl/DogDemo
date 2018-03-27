@@ -22,7 +22,8 @@ class DogTableViewCell: UITableViewCell {
                 withURL: url,
                 placeholderImage: UIImage(named: "Placeholder Image"),
                 filter: filter,
-                imageTransition: .crossDissolve(0.2)
+                imageTransition: .crossDissolve(0.2),
+                runImageTransitionIfCached: false
             )
         }
     }
